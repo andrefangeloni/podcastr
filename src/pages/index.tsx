@@ -1,5 +1,3 @@
-import { Header } from '../components/Header';
-
-const Home = () => <Header />;
+const Home = () => null;
 
 export default Home;

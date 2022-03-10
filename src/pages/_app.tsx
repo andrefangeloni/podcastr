@@ -1,5 +1,18 @@
-import '../styles/global.scss';
+import { Header } from '../components/Header';
+import { Player } from '../components/Player';
 
-const MyApp = ({ Component, pageProps }) => <Component {...pageProps} />;
+import '../styles/global.scss';
+import styles from '../styles/app.module.scss';
+
+const MyApp = ({ Component, pageProps }) => (
+  <div className={styles.wrapper}>
+    <main>
+      <Header />
+      <Component {...pageProps} />
+    </main>
+
+    <Player />
+  </div>
+);
 
 export default MyApp
