@@ -1,11 +1,9 @@
-import Image from 'next/image';
-
 import styles from './styles.module.scss';
 
 const Player = () => (
   <div className={styles.playerContainer}>
     <header>
-      <Image src="/playing.svg" alt="Tocando agora" width={40} height={22.5} />
+      <img src="/playing.svg" alt="Tocando agora" />
       <strong>Tocando agora</strong>
     </header>
 
@@ -24,33 +22,23 @@ const Player = () => (
 
       <div className={styles.buttons}>
         <button type="button">
-          <Image src="/shuffle.svg" alt="Embaralhar" width={40} height={22.5} />
+          <img src="/shuffle.svg" alt="Embaralhar" />
         </button>
 
         <button type="button">
-          <Image
-            src="/play-previous.svg"
-            alt="Tocar anterior"
-            width={40}
-            height={22.5}
-          />
+          <img src="/play-previous.svg" alt="Tocar anterior" />
         </button>
 
         <button type="button" className={styles.playButton}>
-          <Image src="/play.svg" alt="Tocar" width={40} height={22.5} />
+          <img src="/play.svg" alt="Tocar" />
         </button>
 
         <button type="button">
-          <Image
-            src="/play-next.svg"
-            alt="Tocar próxima"
-            width={40}
-            height={22.5}
-          />
+          <img src="/play-next.svg" alt="Tocar próxima" />
         </button>
 
         <button type="button">
-          <Image src="/repeat.svg" alt="Repetir" width={40} height={22.5} />
+          <img src="/repeat.svg" alt="Repetir" />
         </button>
       </div>
     </footer>

@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -12,7 +10,7 @@ const Header = () => {
 
   return (
     <header className={styles.headerContainer}>
-      <Image src="/logo.svg" alt="Podcastr" width={160} height={90} />
+      <img src="/logo.svg" alt="Podcastr" />
 
       <p>O melhor para você ouvir, sempre</p>
 
