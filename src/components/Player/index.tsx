@@ -10,9 +10,29 @@ import 'rc-slider/assets/index.css';
 import styles from './styles.module.scss';
 
 const Player = () => {
-  const { episodeList, currentEpisodeIndex } = React.useContext(PlayerContext);
+  const audioRef = React.useRef<HTMLAudioElement>(null);
+
+  const {
+    isPlaying,
+    togglePlay,
+    episodeList,
+    setPlayingState,
+    currentEpisodeIndex,
+  } = React.useContext(PlayerContext);
 
   const episode = episodeList[currentEpisodeIndex];
+
+  React.useEffect(() => {
+    if (!audioRef.current) {
+      return;
+    }
+
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
 
   return (
     <div className={styles.playerContainer}>
@@ -56,6 +76,16 @@ const Player = () => {
           <span>00:00</span>
         </div>
 
+        {episode ? (
+          <audio
+            autoPlay
+            ref={audioRef}
+            src={episode.url}
+            onPlay={() => setPlayingState(true)}
+            onPause={() => setPlayingState(false)}
+          />
+        ) : null}
+
         <div className={styles.buttons}>
           <button type="button" disabled={!episode}>
             <img src="/shuffle.svg" alt="Embaralhar" />
@@ -65,8 +95,16 @@ const Player = () => {
             <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
 
-          <button type="button" disabled={!episode} className={styles.playButton}>
-            <img src="/play.svg" alt="Tocar" />
+          <button
+            type="button"
+            disabled={!episode}
+            className={styles.playButton}
+            onClick={() => togglePlay()}
+          >
+            <img
+              src={isPlaying ? '/pause.svg' : '/play.svg'}
+              alt={isPlaying ? 'Pausar' : 'Tocar'}
+            />
           </button>
 
           <button type="button" disabled={!episode}>
