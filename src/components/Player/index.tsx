@@ -6,10 +6,14 @@ import Slider from 'rc-slider';
 
 import { usePlayer } from '../../hooks/usePlayer';
 
+import { durationConvert } from '../../utils/durationConvert';
+
 import 'rc-slider/assets/index.css';
 import styles from './styles.module.scss';
 
 const Player = () => {
+  const [progress, setProgress] = React.useState(0);
+
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const {
@@ -25,6 +29,7 @@ const Player = () => {
     playPrevious,
     toggleShuffle,
     setPlayingState,
+    clearPlayerState,
     currentEpisodeIndex,
   } = usePlayer();
 
@@ -41,6 +46,27 @@ const Player = () => {
       audioRef.current.pause();
     }
   }, [isPlaying]);
+
+  const setupProgressListener = () => {
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.addEventListener('timeupdate', () => {
+      setProgress(Math.floor(audioRef.current.currentTime));
+    })
+  };
+
+  const handleSeek = (amount: number) => {
+    audioRef.current.currentTime = amount;
+    setProgress(amount);
+  };
+
+  const handleEnded = () => {
+    if (hasNext) {
+      playNext();
+    } else {
+      clearPlayerState();
+    }
+  };
 
   return (
     <div className={styles.playerContainer}>
@@ -69,10 +95,13 @@ const Player = () => {
 
       <footer className={episode ? '' : styles.empty}>
         <div className={styles.progress}>
-          <span>00:00</span>
+          <span>{durationConvert(progress)}</span>
           <div className={styles.slider}>
             {episode ? (
               <Slider
+                value={progress}
+                onChange={handleSeek}
+                max={episode.duration}
                 railStyle={{ backgroundColor: '#9f75ff' }}
                 trackStyle={{ backgroundColor: '#04d361' }}
                 handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
@@ -81,7 +110,7 @@ const Player = () => {
               <div className={styles.emptySlider} />
             )}
           </div>
-          <span>00:00</span>
+          <span>{durationConvert(episode?.duration ?? 0)}</span>
         </div>
 
         {episode ? (
@@ -90,8 +119,10 @@ const Player = () => {
             ref={audioRef}
             loop={isLooping}
             src={episode.url}
+            onEnded={handleEnded}
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
+            onLoadedMetadata={() => setupProgressListener()}
           />
         ) : null}
 
