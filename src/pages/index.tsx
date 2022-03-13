@@ -7,7 +7,7 @@ import { GetStaticProps } from 'next';
 import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
-import { PlayerContext } from '../contexts/PlayerContext';
+import { usePlayer } from '../hooks/usePlayer';
 
 import api from '../services/api';
 
@@ -33,9 +33,9 @@ type HomeProps = {
 };
 
 const Home = ({ allEpisodes, latestEpisodes }: HomeProps) => {
-  const { playList } = React.useContext(PlayerContext);
+  const { playList } = usePlayer();
 
-  const episodeList = [...allEpisodes, ...latestEpisodes];
+  const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
     <div className={styles.homePage}>

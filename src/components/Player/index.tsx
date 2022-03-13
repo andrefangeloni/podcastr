@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import Slider from 'rc-slider';
 
-import { PlayerContext } from '../../contexts/PlayerContext';
+import { usePlayer } from '../../hooks/usePlayer';
 
 import 'rc-slider/assets/index.css';
 import styles from './styles.module.scss';
@@ -13,14 +13,16 @@ const Player = () => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const {
+    hasNext,
     playNext,
     isPlaying,
     togglePlay,
+    hasPrevious,
     episodeList,
     playPrevious,
     setPlayingState,
     currentEpisodeIndex,
-  } = React.useContext(PlayerContext);
+  } = usePlayer();
 
   const episode = episodeList[currentEpisodeIndex];
 
@@ -95,8 +97,8 @@ const Player = () => {
 
           <button
             type="button"
-            disabled={!episode}
             onClick={() => playPrevious()}
+            disabled={!episode || !hasPrevious}
           >
             <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
@@ -115,8 +117,8 @@ const Player = () => {
 
           <button
             type="button"
-            disabled={!episode}
             onClick={() => playNext()}
+            disabled={!episode || !hasNext}
           >
             <img src="/play-next.svg" alt="Tocar próxima" />
           </button>
