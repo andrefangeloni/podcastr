@@ -13,9 +13,11 @@ const Player = () => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
   const {
+    playNext,
     isPlaying,
     togglePlay,
     episodeList,
+    playPrevious,
     setPlayingState,
     currentEpisodeIndex,
   } = React.useContext(PlayerContext);
@@ -91,7 +93,11 @@ const Player = () => {
             <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
 
-          <button type="button" disabled={!episode}>
+          <button
+            type="button"
+            disabled={!episode}
+            onClick={() => playPrevious()}
+          >
             <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
 
@@ -107,7 +113,11 @@ const Player = () => {
             />
           </button>
 
-          <button type="button" disabled={!episode}>
+          <button
+            type="button"
+            disabled={!episode}
+            onClick={() => playNext()}
+          >
             <img src="/play-next.svg" alt="Tocar próxima" />
           </button>
 
